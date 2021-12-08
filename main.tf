@@ -242,7 +242,3 @@ resource "aws_kinesis_firehose_delivery_stream" "stream" {
     }
   }
 }
-
-provider "aws" {
-  region = "us-east-1"
-}
