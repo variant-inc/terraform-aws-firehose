@@ -3,6 +3,7 @@ data "aws_region" "current" {}
 resource "aws_iam_role" "role" {
   count = var.create_role ? 1 : 0
   name  = format("AWSKinesisFirehoseRole-%s", var.name)
+  tags  = var.tags
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -153,6 +154,7 @@ resource "aws_cloudwatch_log_group" "log_group" {
   count = var.enable_cloudwatch_logging && var.create_cloudwatch ? 1 : 0
 
   name              = format("aws-firehose-logs-%s", var.name)
+  tags              = var.tags
   retention_in_days = 0
 }
 
@@ -165,6 +167,7 @@ resource "aws_cloudwatch_log_stream" "log_stream" {
 
 resource "aws_kinesis_firehose_delivery_stream" "stream" {
   name        = var.name
+  tags        = var.tags
   destination = var.destination_type
 
   dynamic "server_side_encryption" {

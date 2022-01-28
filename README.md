@@ -4,6 +4,7 @@
   - [Input Variables](#input-variables)
   - [Variable definitions](#variable-definitions)
     - [name](#name)
+    - [tags](#tags)
     - [create_role](#create_role)
     - [policy](#policy)
     - [role](#role)
@@ -29,6 +30,7 @@
 | Name     | Type    | Default   | Example     | Notes   |
 | -------- | ------- | --------- | ----------- | ------- |
 | name | string |  | "test-firehose" |  |
+| tags | map(string) | {} | {"environment": "prod"} | |
 | create_role | bool | true | false |  |
 | policy | lis(any) | [] | `see below` |  |
 | role | string | "" | "arn:aws:iam::319244236588:role/AWSKinesisFirehoseRole-test-firehose" |  |
@@ -50,6 +52,17 @@
 Name for Kinesis Firehose. Also used in naming connected resources.
 ```json
 "name": "<name of Kinesis Firehose>"
+```
+
+### tags
+Tags for created bucket.
+```json
+"tags": {<map of tag keys and values>}
+```
+
+Default:
+```json
+"tags": {}
 ```
 
 ### create_role
@@ -239,6 +252,7 @@ module "firehose" {
   source = "github.com/variant-inc/terrafor-aws-firehose/?refs=v1"
 
   name        = var.name
+  tags        = var.tags
   create_role = var.create_role
   policy      = var.policy
   role        = var.role
@@ -262,6 +276,9 @@ module "firehose" {
 ```json
 {
   "name": "test-firehose",
+  "tags": {
+    "environment": "prod"
+  },
   "destination_type": "extended_s3",
   "extended_s3_config": {
     "bucket_arn": "arn:aws:s3:::test-luka-290183",
