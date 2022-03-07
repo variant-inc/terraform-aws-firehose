@@ -21,6 +21,12 @@ variable "policy" {
   default     = []
 }
 
+variable "managed_policies" {
+  description = "List of additional managed policies."
+  type        = list(string)
+  default     = []
+}
+
 variable "role" {
   description = "Custom role ARN used for Firehoste Stream."
   type        = string
