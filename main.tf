@@ -17,6 +17,8 @@ resource "aws_iam_role" "role" {
     ]
   })
 
+  managed_policy_arns = var.managed_policies
+
   dynamic "inline_policy" {
     for_each = var.destination_type == "extended_s3" ? [true] : []
 

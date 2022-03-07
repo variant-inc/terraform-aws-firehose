@@ -7,6 +7,7 @@
     - [tags](#tags)
     - [create_role](#create_role)
     - [policy](#policy)
+    - [managed_policies](#managed_policies)
     - [role](#role)
     - [destination_type](#destination_type)
     - [enable_sse](#enable_sse)
@@ -33,6 +34,7 @@
 | tags | map(string) | {} | {"environment": "prod"} | |
 | create_role | bool | true | false |  |
 | policy | lis(any) | [] | `see below` |  |
+| managed_policies | list(string) | [] | `see below` |  |
 | role | string | "" | "arn:aws:iam::319244236588:role/AWSKinesisFirehoseRole-test-firehose" |  |
 | destination_type | string | "extended_s3" |  |  |
 | enable_sse | bool | true | false |  |
@@ -88,6 +90,18 @@ Effective only if `create_role` is set to `true`.
 Default:
 ```json
 "policy": []
+```
+
+### managed_policies
+Additional managed policies which should be attached to auto-created role.
+Effective only if `create_role` is set to `true`.
+```json
+"managed_policies": [<list of managed policies>]
+```
+
+Default:
+```json
+"managed_policies": []
 ```
 
 ### role
@@ -253,9 +267,11 @@ module "firehose" {
 
   name        = var.name
   tags        = var.tags
-  create_role = var.create_role
-  policy      = var.policy
-  role        = var.role
+
+  create_role      = var.create_role
+  policy           = var.policy
+  managed_policies = var.managed_policies
+  role             = var.role
 
   destination_type = var.destination_type
   enable_sse       = var.enable_sse
@@ -302,6 +318,9 @@ module "firehose" {
         }]
       }
     }
+  ],
+  "managed_policies": [
+    "arn:aws:iam::319244236588:policy/example-managed-policy"
   ],
   "enable_processing": true,
   "processing_lambda_arn": "arn:aws:lambda:us-east-1:319244236588:function:luka-lambda-test",
