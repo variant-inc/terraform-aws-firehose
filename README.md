@@ -263,7 +263,7 @@ Default:
 ### `main.tf`
 ```terarform
 module "firehose" {
-  source = "github.com/variant-inc/terrafor-aws-firehose/?refs=v1"
+  source = "github.com/variant-inc/terraform-aws-firehose?ref=v1"
 
   name        = var.name
   tags        = var.tags
